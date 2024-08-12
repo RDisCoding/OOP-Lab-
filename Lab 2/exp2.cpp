@@ -14,10 +14,23 @@ class Library{
         cin>>days;
     }
 
-    inline string dateCalculator();
+    string dateCalculator();
+    int oddMonth(int month, int year, int days, int date = 1);
+    int evenMonth(int month, int year, int days, int date = 1);
+    int february(int month, int year, int days, int date = 1);
 };
 
-int oddMonth(int month, int year, int days, int date = 1){
+
+string Library :: dateCalculator(){
+    int date = stoi(current_date.substr(0,2));
+    int month = stoi(current_date.substr(3,2));
+    int year = stoi(current_date.substr(6,4));
+
+    int dueDate = (month%2)?evenMonth(month, year, days, date) : oddMonth(month, year, days, date);
+    cout<<dueDate<<"/"<<month<<"/"<<year;
+};
+
+int Library :: oddMonth(int month, int year, int days, int date = 1){
     int remainingDays = date + days - 31;
     if(remainingDays > 0){
         month++;
@@ -32,18 +45,15 @@ int oddMonth(int month, int year, int days, int date = 1){
         int newDate = date + days -1;
         return newDate;
     }
-}
+};
 
-int evenMonth(int month, int year, int days, int date = 1){
+int Library :: evenMonth(int month, int year, int days, int date = 1){
     int remainingDays = date + days - 30;
     if(remainingDays > 0){
         month++;
         if(month > 12){
             month = 1;
             year++;
-        }
-        if(month == 2){
-            february(month, year, remainingDays);
         }
         else{
             oddMonth(month, year, remainingDays);
@@ -53,9 +63,9 @@ int evenMonth(int month, int year, int days, int date = 1){
         int newDate = date + days;
         return newDate;
     }
-}
+};
 
-int february(int month, int year, int days, int date = 1){
+int Library :: february(int month, int year, int days, int date = 1){
     int remainingDays;
     if(year%4==0 && year%100!=0 || year%400==0){
     remainingDays = date + days - 29;
@@ -71,22 +81,13 @@ int february(int month, int year, int days, int date = 1){
         int newDate = date + days;
         return newDate;
     }
-}
+};
 
-string Library :: dateCalculator(){
-    int date = stoi(current_date.substr(0,2));
-    int month = stoi(current_date.substr(3,2));
-    int year = stoi(current_date.substr(6,4));
-
-    int dueDate = (month%2)?evenMonth(month, year, days, date) : oddMonth(month, year, days, date);
-    cout<<dueDate;
-
-}
 
 int main()
 {
     Library lib;
     lib.getData();
-    lib.dateCalculator();
+    // lib.dateCalculator();
     return 0;
 }
